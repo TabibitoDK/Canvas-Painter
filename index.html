@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="HeadBar">
+        <h1>Canvas Painter</h1>
+    </div>
+    <div class="title">
+        <input id="canvasName" type="text" value="Untitled Canvas">
+        <p id="lastEdited">Last edited on: xx-xx-xxxx xx:xx:xx</p>
+    </div>
+    <div class="menu">
+        <button id="newbtn" >new</button>
+        <button id="undobtn" >U</button>
+        <button id="redobtn" >R</button>
+        <button id="clearbtn" >clear canvas</button>
+        <button id="savebtn" >Save</button>
+    </div>
+    <hr>
+    <div class="toolsBar">
+        <button class="tools" id="pen">P</button>
+        <button class="tools" id="eraser">E</button>
+    </div>
+    <div class="canvasDiv">
+        <canvas id="canvas" height="720" width="1480" style="position:absolute ;"></canvas>
+    </div>
+    <div class="colorPallate">
+        <button id="fillColour">Fill Color</button>
+        <button id="strokeColour">Stroke Color</button>
+        <p id="fillcolourdisp"></p>
+        <p id="strokecolourdisp"></p>
+        <div id="rainbow-box"><canvas id="colourPicker"></canvas></div>
+    </div>
+    <div class="brushSettings"></div>
+    <img src="images/spectrum.jpg" alt="" id="spectrum" style="display:none ;">
+    <script type="module" src="main.js"></script>
+</body>
+</html>
