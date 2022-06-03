@@ -52,19 +52,21 @@ export const ERASER = {
         draw(canvas, ctx) {
             if (this.ended == true) return;
             if (this.path.length == 0) {
-                ctx.fillStyle = "#FFFFFF";
+                ctx.strokeStyle = '#ffffff';
+                ctx.beginPath()
+                ctx.moveTo(Pointer.canvasX, Pointer.canvasY);
             }
-            ctx.beginPath()
-            ctx.arc(Pointer.canvasX - STROKESIZE.currentSize, Pointer.canvasY - STROKESIZE.currentSize, STROKESIZE.currentSize, 0, 2 * Math.PI);
-            ctx.fill()
-            this.path.push([Pointer.canvasX - STROKESIZE.currentSize, Pointer.canvasY - STROKESIZE.currentSize, STROKESIZE.currentSize])
+            ctx.lineTo(Pointer.canvasX, Pointer.canvasY);
+            ctx.stroke();
+            this.path.push([Pointer.canvasX, Pointer.canvasY])
         }
         update(canvas, ctx) {
             if (this.path.length == 0) return;
             ctx.beginPath()
+            ctx.moveTo(this.path[0][0], this.path[0][1])
             this.path.forEach(path => {
-                ctx.arc(path[0], path[1], path[2], 0, 2 * Math.PI);
-                ctx.fill()
+                ctx.lineTo(path[0], path[1])
+                ctx.stroke();
             });
         }
     } 
