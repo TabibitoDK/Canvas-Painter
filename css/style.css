@@ -22,6 +22,8 @@ button {
   margin-right: 1vw;
   border-radius: 2.5vw;
   border-width: .05vw;
+  padding: 0.5vh;
+  outline: 0vh;
 }
 
 hr {
@@ -94,6 +96,16 @@ hr {
   height: 44vh;
   background-color: black;
   border-radius: 1vw;
+}
+
+.strokesizepanel {
+  margin-top: 2vh;
+  margin-left: 1vw;
+}
+
+.strokesizelabel {
+  color: white;
+  font-size: 2vh;
 }
 
 #canvasName {
@@ -207,5 +219,14 @@ hr {
   margin-top: 2vh;
   border-radius: .5vw;
   background: white;
+}
+
+#strokesizetextinput {
+  font-size: 2vh;
+}
+
+#strokesizeslider {
+  width: 13vw;
+  height: 2vh;
 }
 /*# sourceMappingURL=style.css.map */

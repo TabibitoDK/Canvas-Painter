@@ -11,6 +11,8 @@ export const PEN = {
         }
         pointerup (e) {
             current.ended = true;
+            COLOR.refresh();
+            STROKESIZE.refresh();
             window.removeEventListener('pointerup', current.pointerup);
         }
         draw(canvas, ctx) {
@@ -18,6 +20,8 @@ export const PEN = {
             if (this.path.length == 0) {
                 ctx.beginPath()
                 ctx.moveTo(Pointer.canvasX, Pointer.canvasY);
+                this.strokestyle = COLOR.currentStroke;
+                this.strokesize = STROKESIZE.currentSize;
             }
             ctx.lineTo(Pointer.canvasX, Pointer.canvasY);
             ctx.stroke();
@@ -25,6 +29,8 @@ export const PEN = {
         }
         update(canvas, ctx) {
             if (this.path.length == 0) return;
+            ctx.strokeStyle = this.strokestyle;
+            ctx.lineWidth = this.strokesize;
             ctx.beginPath()
             ctx.moveTo(this.path[0][0], this.path[0][1])
             this.path.forEach(path => {
@@ -47,12 +53,14 @@ export const ERASER = {
         pointerup (e) {
             current.ended = true;
             COLOR.refresh();
+            STROKESIZE.refresh();
             window.removeEventListener('pointerup', current.pointerup);
         }
         draw(canvas, ctx) {
             if (this.ended == true) return;
             if (this.path.length == 0) {
                 ctx.strokeStyle = '#ffffff';
+                this.strokesize = STROKESIZE.currentSize;
                 ctx.beginPath()
                 ctx.moveTo(Pointer.canvasX, Pointer.canvasY);
             }
@@ -62,6 +70,8 @@ export const ERASER = {
         }
         update(canvas, ctx) {
             if (this.path.length == 0) return;
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = this.strokesize;
             ctx.beginPath()
             ctx.moveTo(this.path[0][0], this.path[0][1])
             this.path.forEach(path => {

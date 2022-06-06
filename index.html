@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
     <link rel="stylesheet" href="css/style.css">
     <title>Document</title>
 </head>
@@ -37,7 +37,13 @@
         <p id="strokecolourdisp"></p>
         <div id="rainbow-box"><canvas id="colourPicker"></canvas></div>
     </div>
-    <div class="brushSettings"></div>
+    <div class="brushSettings">
+        <div class="strokesizepanel">
+            <label class="strokesizelabel">Stroke Size</label> <br>
+            <input id="strokesizetextinput" type="text"> <br>
+            <input id="strokesizeslider" type="range" min="0" max="40" step="1" value="1">
+        </div>
+    </div>
     <img src="images/spectrum.jpg" alt="" id="spectrum" style="display:none ;">
     <script type="module" src="main.js"></script>
 </body>

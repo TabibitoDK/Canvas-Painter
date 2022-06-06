@@ -2,6 +2,7 @@ import { Renderer, Pointer, resize, COLOR, STROKESIZE, PAN } from './js/canvas.j
 import { ERASER, PEN } from './js/pen.js';
 import {TOOLBAR} from './js/toolsbar.js';
 import { PICKER } from './js/colorPallate.js';
+import {STROKESETTING} from './js/drawSettings.js'
 
 let canvas, renderer, current;
 
@@ -9,6 +10,7 @@ function main () {
     canvas = document.getElementById('canvas');
     resize();
     PICKER.init();
+    STROKESETTING.init();
     renderer = new Renderer(canvas);
     COLOR.refresh();
     STROKESIZE.refresh();
