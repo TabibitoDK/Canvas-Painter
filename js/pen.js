@@ -81,3 +81,20 @@ export const ERASER = {
         }
     } 
 }
+
+
+
+function lerp (x, y, a) {
+    let ans = x * (1-a) + y * a;
+    return ans
+}
+
+function linelerp (x1, y1, x2, y2, a) {
+    let ans = {x: x1, y:y1};
+    ans.x = lerp(x1, x2, a);
+    ans.y = lerp(y1, y2, a);
+    return ans;
+}
+
+
+

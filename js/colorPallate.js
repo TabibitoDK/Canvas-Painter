@@ -9,7 +9,7 @@ const strokebtn = document.getElementById('strokeColour');
 
 
 export const PICKER = {
-    currentType: fillcolourdisp,
+    currentType: strokecolourdisp,
     types: [fillcolourdisp, strokecolourdisp],
     buttons: [fillbtn, strokebtn],
     init: function () {
@@ -22,21 +22,6 @@ export const PICKER = {
         var spectrum = document.getElementById('spectrum');
         PICKER.ctx.drawImage(spectrum, 0, 0, colourPicker.clientWidth, colourPicker.clientHeight);
 
-        // var grd = PICKER.ctx.createLinearGradient(0, 0, colourPicker.clientWidth, 0);
-        // grd.addColorStop(0.0, "white");
-        // grd.addColorStop(0.1, "black");
-        // grd.addColorStop(0.2, "red");
-        // grd.addColorStop(0.3, "orange");
-        // grd.addColorStop(0.4, "yellow");
-        // grd.addColorStop(0.5, "green");
-        // grd.addColorStop(0.6, "blue");
-        // grd.addColorStop(0.7, "indigo");
-        // grd.addColorStop(0.8, "purple");
-        // grd.addColorStop(0.9, "black");
-        // grd.addColorStop(1.0, "white");
-
-        // PICKER.ctx.fillStyle = grd;
-        // PICKER.ctx.fillRect(0,0, colourPicker.clientWidth, colourPicker.clientHeight);
 
         fillbtn.onmouseup = function () {
             PICKER.change(0);

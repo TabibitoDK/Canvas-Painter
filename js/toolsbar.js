@@ -35,8 +35,8 @@ export const TOOLBAR = {
 
 pen.onmouseup = function () {
     TOOLBAR.change(1);
-    console.log("cc")
 }
 eraser.onmouseup = function () {
     TOOLBAR.change(2);
 }
+

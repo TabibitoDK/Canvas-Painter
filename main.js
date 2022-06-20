@@ -1,4 +1,4 @@
-import { Renderer, Pointer, resize, COLOR, STROKESIZE, PAN } from './js/canvas.js'
+import { Renderer, Pointer, resize, COLOR, STROKESIZE, PAN, MENUBAR } from './js/canvas.js'
 import { ERASER, PEN } from './js/pen.js';
 import {TOOLBAR} from './js/toolsbar.js';
 import { PICKER } from './js/colorPallate.js';
@@ -11,10 +11,11 @@ function main () {
     resize();
     PICKER.init();
     STROKESETTING.init();
+    MENUBAR.init();
     renderer = new Renderer(canvas);
     COLOR.refresh();
     STROKESIZE.refresh();
-    window.onpointerdown = pointerdown;
+    canvas.onpointerdown = pointerdown;
     window.onpointerup = pointerup;
     window.onpointermove = pointermove;
     window.onresize = function () {resize(); renderer.refresh();};

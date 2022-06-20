@@ -232,3 +232,14 @@ hr {
     height: 2vh;
 }
 
+
+#popup {
+    background-color: red;
+    height: 20vh;
+    width: 60vh;
+    z-index: 100;
+    position: absolute;
+    margin: auto;
+    display: none;
+}
+
