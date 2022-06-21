@@ -13,6 +13,7 @@ function main () {
     STROKESETTING.init();
     MENUBAR.init();
     renderer = new Renderer(canvas);
+    renderer.clear();
     COLOR.refresh();
     STROKESIZE.refresh();
     canvas.onpointerdown = pointerdown;
@@ -30,6 +31,7 @@ function render () {
 
 
 function pointerdown (e) {
+    renderer.canRedo = false;
     if (TOOLBAR.currentTool == 1) {
         current = new PEN.Pen();
     }

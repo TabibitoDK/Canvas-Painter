@@ -6,6 +6,7 @@ export class Renderer {
         this.undoHist = [];
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
+        this.canRedo = false;
     }
     render() {
         if (this.update.length == 0) return;
@@ -32,6 +33,7 @@ export class Renderer {
         COLOR.refresh();
         STROKESIZE.refresh();
         this.refresh();
+        this.canRedo = true;
     }
     redo() {
         if (this.undoHist.length == 0) return;
@@ -164,6 +166,7 @@ export const MENUBAR = {
         }
     },
     load: function () {
+        renderer.clear();
         if (confirm("Load a saved data file ?")) {
             const inp = document.createElement('input');
             inp.type = 'file';

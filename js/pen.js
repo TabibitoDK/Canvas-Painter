@@ -60,6 +60,7 @@ export const ERASER = {
             if (this.ended == true) return;
             if (this.path.length == 0) {
                 ctx.strokeStyle = '#ffffff';
+                this.strokestyle = '#ffffff';
                 this.strokesize = STROKESIZE.currentSize;
                 ctx.beginPath()
                 ctx.moveTo(Pointer.canvasX, Pointer.canvasY);
@@ -70,7 +71,7 @@ export const ERASER = {
         }
         update(canvas, ctx) {
             if (this.path.length == 0) return;
-            ctx.strokeStyle = "#ffffff";
+            ctx.strokeStyle = this.strokestyle;
             ctx.lineWidth = this.strokesize;
             ctx.beginPath()
             ctx.moveTo(this.path[0][0], this.path[0][1])
