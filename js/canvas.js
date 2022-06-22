@@ -5,6 +5,7 @@ export class Renderer {
         this.update = [];
         this.undoHist = [];
         this.canvas = canvas;
+        this.canvas.style.cursor = 'crosshair'
         this.ctx = canvas.getContext("2d");
         this.canRedo = false;
     }
