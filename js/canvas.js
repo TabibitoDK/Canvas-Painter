@@ -8,6 +8,10 @@ export class Renderer {
         this.canvas.style.cursor = 'crosshair'
         this.ctx = canvas.getContext("2d");
         this.canRedo = false;
+        if ("TextEncoder" in window && "TextDecoder" in window) {
+            this.enc = new TextEncoder();
+            this.dec = new TextDecoder('utf-8');
+        }
     }
     render() {
         if (this.update.length == 0) return;
@@ -131,12 +135,21 @@ export const MENUBAR = {
             StrokeSize: 1,
         }
         let dataJSON = JSON.stringify(data);
-        dataJSON = '\nDATA\n' + dataJSON;
-        let dataURL = renderer.canvas.toDataURL();
-        let dataURLs = dataURL.split(",");
-        // dataURL = dataURLs[0] + ',' + dataURLs[1] + 'DATA' + btoa((encodeURIComponent(dataJSON))) + 'DATA';
+        dataJSON = '\nDATA\n' + dataJSON + '\nDATA\n';
         if (confirm("Download canvas file")) {
-            // fetch(dataURL).then(data => data.text()).then(text => text + 'DATA' + dataJSON + 'DATA').then(newT => toBlob(newT));
+            if (renderer.enc !== undefined) {
+                let strBuff = renderer.enc.encode(dataJSON);
+                let colors = renderer.ctx.getImageData(0, 0, renderer.canvas.clientWidth, renderer.canvas.clientHeight);
+                console.log(colors);
+                for (let i=0; i<strBuff.length; i++) {
+                    for (let j=0; j<8; j++) {
+                        let res = (strBuff[i] >>> j) & 1;
+                        colors.data[(i*8)+j] ^= (-res ^ colors.data[(i*8)+j]) & (1 << 0);
+                    } 
+                }
+                renderer.ctx.putImageData(colors, 0, 0);
+            }
+            let dataURL = renderer.canvas.toDataURL();
             fetch(dataURL).then(data => data.arrayBuffer()).then(newT => toBlob(newT));
             const a = document.createElement('a');
             a.style.display = 'none';
@@ -149,12 +162,18 @@ export const MENUBAR = {
                 return bufView;
             }
             function toBlob (text) {
-                let imgbuff = new Uint8Array(text);
-                let textbuff = str2ab(dataJSON);
-                let newT = new Uint8Array(imgbuff.length + textbuff.length);
-                console.log(imgbuff.length, textbuff.length, newT.length)
-                newT.set(imgbuff, 0);
-                newT.set(textbuff, imgbuff.length);
+                let newT;
+                if (renderer.enc !== undefined) {
+                    newT = text;
+                }
+                else {
+                    let imgbuff = new Uint8Array(text);
+                    let textbuff = str2ab(dataJSON);
+                    newT = new Uint8Array(imgbuff.length + textbuff.length);
+                    console.log(imgbuff);
+                    newT.set(imgbuff, 0);
+                    newT.set(textbuff, imgbuff.length);
+                }
                 console.log(newT);
                 let blob = new Blob([newT], {type: "data:image/png"});
                 a.href = window.URL.createObjectURL(blob);
@@ -173,25 +192,68 @@ export const MENUBAR = {
             inp.type = 'file';
             inp.style.display = 'hidden';
             inp.onchange = function () {
+                var file = this.files[0];
                 var fs = new FileReader();
+                var mode = 0;
                 fs.onload = function () {
-                    let result = fs.result.split('DATA');
-                    if (result.length !== 2) return
-                    let dataJSON = result[1];
+                    if (mode == 0) {
+                        let result = fs.result.split('DATA');
+                        if (result.length !==3) {
+                            mode = 1;
+                            fs.readAsDataURL(file);
+                            return
+                        }
+                        let dataJSON = result[1];
+                        loadData(dataJSON);
+                    }
+                    if (mode == 1) {
+                        let img = document.getElementById('imgloaded');
+                        img.src = fs.result;
+                        img.onload = function () {
+                            let canvas = document.createElement('canvas');
+                            canvas.style.visibility = "hidden";
+                            img.style.display = 'block';
+                            canvas.width = img.clientWidth;
+                            canvas.height = img.clientHeight;
+                            console.log(img.clientWidth, img.clientHeight, canvas.width, canvas.height);
+                            img.style.display = 'none';
+                            document.body.appendChild(canvas);
+                            let ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            let strsrc = ctx.getImageData(0,0,canvas.width, canvas.height).data;
+                            document.body.removeChild(canvas);
+                            window.URL.revokeObjectURL(fs.result);
+                            let strans = new Uint8Array(strsrc.length);
+                            // console.log(strsrc);
+                            for (let i=0, j=0; i<strsrc.length; i++) {
+                                if (i%8 == 0 && i!=0) j++;
+                                let res = (strsrc[i] >>> 0) & 1;
+                                strans[j] ^= (-res ^ strans[j]) & (1 << i%8);
+                            }
+                            let result = renderer.dec.decode(strans);
+                            result = result.split('DATA');
+                            if (result.length !==3) {
+                                console.log(result);
+                                alert("Error loading this file, data not found");
+                                return
+                            }
+                            let dataJSON = result[1];
+                            console.log(dataJSON);
+                            loadData(dataJSON);
+                        }
+                    }
+                }
+                function loadData(dataJSON) {
                     let data = JSON.parse(dataJSON);
+                    console.log(data);
                     for (let i=0 ; i<data.Update.length; i++) {
                         let trace = new TRACE(data.Update[i]);
                     }
                     renderer.refresh();
                     console.log(data);
                 }
-                function loadData(data) {
-                }
-                fs.readAsBinaryString(this.files[0]);
-                console.log(this.files[0])
-                function loadData () {
-
-                }
+                fs.readAsBinaryString(file);
+                // console.log(this.files[0])
             };
             document.body.appendChild(inp);
             inp.click();
