@@ -2,7 +2,7 @@
 
 A responsive web-based drawing application that provides an intuitive interface for creating digital artwork with various tools and features.
 
-![Canvas Painter Screenshot](demo/canvas painter.png)
+![Canvas Painter Screenshot](https://tabibitodk.github.io/Canvas-Painter/demo/canvas%20painter.png)
 
 ## Overview
 
