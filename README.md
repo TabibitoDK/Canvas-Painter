@@ -2,7 +2,7 @@
 
 A responsive web-based drawing application that provides an intuitive interface for creating digital artwork with various tools and features.
 
-![Canvas Painter Screenshot](https://via.placeholder.com/800x450)
+![Canvas Painter Screenshot](demo/canvas painter.png)
 
 ## Overview
 
